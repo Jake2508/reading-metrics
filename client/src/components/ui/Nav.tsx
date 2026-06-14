@@ -1,5 +1,7 @@
 import { NavLink } from "react-router-dom";
 
+const IS_STATIC = import.meta.env.VITE_STATIC_MODE === "true";
+
 export function Nav() {
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `px-4 py-2 text-sm font-black uppercase tracking-wide border-2 border-black transition-all duration-150 ${
@@ -36,9 +38,11 @@ export function Nav() {
         <NavLink to="/books" className={linkClass}>
           Library
         </NavLink>
-        <NavLink to="/admin" className={linkClass}>
-          Admin
-        </NavLink>
+        {!IS_STATIC && (
+          <NavLink to="/admin" className={linkClass}>
+            Admin
+          </NavLink>
+        )}
       </nav>
     </header>
   );

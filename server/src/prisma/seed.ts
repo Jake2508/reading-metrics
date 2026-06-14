@@ -1,0 +1,277 @@
+import "dotenv/config";
+import { PrismaClient } from "../generated/prisma/client";
+
+const prisma = new PrismaClient();
+
+const WORDS_PER_PAGE = 275;
+
+// Cover URLs use OpenLibrary ISBN lookup — more reliable than cover IDs
+const OL = (isbn: string) => `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
+
+const books = [
+  {
+    title: "The Way of Kings",
+    author: "Brandon Sanderson",
+    genre: "Fantasy",
+    pages: 1007,
+    rating: 4.9,
+    dateFinished: new Date("2023-02-14"),
+    coverUrl: OL("9780765326355"),
+    description: "Epic fantasy set in the world of Roshar, following multiple characters through a world of highstorms and ancient magic.",
+    publishedYear: 2010,
+    isbn: "9780765326355",
+  },
+  {
+    title: "Words of Radiance",
+    author: "Brandon Sanderson",
+    genre: "Fantasy",
+    pages: 1087,
+    rating: 4.8,
+    dateFinished: new Date("2023-04-20"),
+    coverUrl: OL("9780765326362"),
+    description: "The second book of the Stormlight Archive continues the journey of Kaladin and Shallan.",
+    publishedYear: 2014,
+    isbn: "9780765326362",
+  },
+  {
+    title: "Mistborn: The Final Empire",
+    author: "Brandon Sanderson",
+    genre: "Fantasy",
+    pages: 541,
+    rating: 4.7,
+    dateFinished: new Date("2022-11-05"),
+    coverUrl: OL("9780765311788"),
+    description: "A heist story in a world where ash falls from the sky and an immortal tyrant has ruled for a thousand years.",
+    publishedYear: 2006,
+    isbn: "9780765311788",
+  },
+  {
+    title: "Dune",
+    author: "Frank Herbert",
+    genre: "Science Fiction",
+    pages: 688,
+    rating: 4.8,
+    dateFinished: new Date("2022-07-12"),
+    coverUrl: OL("9780441013593"),
+    description: "Set in the distant future amidst a feudal interstellar society, the story of Paul Atreides unfolds on the desert planet Arrakis.",
+    publishedYear: 1965,
+    isbn: "9780441013593",
+  },
+  {
+    title: "Project Hail Mary",
+    author: "Andy Weir",
+    genre: "Science Fiction",
+    pages: 476,
+    rating: 4.9,
+    dateFinished: new Date("2023-07-08"),
+    coverUrl: OL("9780593135204"),
+    description: "A lone astronaut must save the earth from disaster in this science-driven thriller.",
+    publishedYear: 2021,
+    isbn: "9780593135204",
+  },
+  {
+    title: "Ender's Game",
+    author: "Orson Scott Card",
+    genre: "Science Fiction",
+    pages: 352,
+    rating: 4.5,
+    dateFinished: new Date("2022-03-22"),
+    coverUrl: OL("9780812550702"),
+    description: "A child prodigy is trained through increasingly difficult war games to fight an alien species threatening humanity.",
+    publishedYear: 1985,
+    isbn: "9780812550702",
+  },
+  {
+    title: "Sapiens: A Brief History of Humankind",
+    author: "Yuval Noah Harari",
+    genre: "History",
+    pages: 443,
+    rating: 4.4,
+    dateFinished: new Date("2022-09-30"),
+    coverUrl: OL("9780062316097"),
+    description: "A sweeping narrative of humanity's creation and evolution as a species, from the Stone Age to the twenty-first century.",
+    publishedYear: 2011,
+    isbn: "9780062316097",
+  },
+  {
+    title: "Educated",
+    author: "Tara Westover",
+    genre: "Memoir",
+    pages: 334,
+    rating: 4.6,
+    dateFinished: new Date("2023-01-15"),
+    coverUrl: OL("9780399590504"),
+    description: "A memoir about a woman who grows up in a survivalist family in Idaho and goes on to earn a PhD from Cambridge.",
+    publishedYear: 2018,
+    isbn: "9780399590504",
+  },
+  {
+    title: "Atomic Habits",
+    author: "James Clear",
+    genre: "Self-Help",
+    pages: 320,
+    rating: 4.5,
+    dateFinished: new Date("2023-03-10"),
+    coverUrl: OL("9780735211292"),
+    description: "An easy and proven way to build good habits and break bad ones through tiny changes that compound remarkably.",
+    publishedYear: 2018,
+    isbn: "9780735211292",
+  },
+  {
+    title: "The Pragmatic Programmer",
+    author: "David Thomas",
+    genre: "Technology",
+    pages: 352,
+    rating: 4.6,
+    dateFinished: new Date("2022-05-18"),
+    coverUrl: OL("9780135957059"),
+    description: "A guide to improving your software development skills and professional practices.",
+    publishedYear: 1999,
+    isbn: "9780135957059",
+  },
+  {
+    title: "Clean Code",
+    author: "Robert C. Martin",
+    genre: "Technology",
+    pages: 431,
+    rating: 4.2,
+    dateFinished: new Date("2022-06-30"),
+    coverUrl: OL("9780132350884"),
+    description: "A handbook of agile software craftsmanship for writing maintainable, readable code.",
+    publishedYear: 2008,
+    isbn: "9780132350884",
+  },
+  {
+    title: "Thinking, Fast and Slow",
+    author: "Daniel Kahneman",
+    genre: "Psychology",
+    pages: 499,
+    rating: 4.3,
+    dateFinished: new Date("2022-12-05"),
+    coverUrl: OL("9780374533557"),
+    description: "An exploration of the two systems that drive the way we think and make choices.",
+    publishedYear: 2011,
+    isbn: "9780374533557",
+  },
+  {
+    title: "The Name of the Wind",
+    author: "Patrick Rothfuss",
+    genre: "Fantasy",
+    pages: 662,
+    rating: 4.7,
+    dateFinished: new Date("2023-05-25"),
+    coverUrl: OL("9780756404079"),
+    description: "The riveting first-person narrative of Kvothe, a legendary figure in a world rich with magic and music.",
+    publishedYear: 2007,
+    isbn: "9780756404079",
+  },
+  {
+    title: "Neuromancer",
+    author: "William Gibson",
+    genre: "Science Fiction",
+    pages: 271,
+    rating: 4.1,
+    dateFinished: new Date("2023-06-14"),
+    coverUrl: OL("9780441569595"),
+    description: "The novel that defined cyberpunk: a washed-up hacker is hired for one last job in a dystopian future.",
+    publishedYear: 1984,
+    isbn: "9780441569595",
+  },
+  {
+    title: "Zero to One",
+    author: "Peter Thiel",
+    genre: "Business",
+    pages: 195,
+    rating: 4.2,
+    dateFinished: new Date("2022-08-20"),
+    coverUrl: OL("9780804139021"),
+    description: "Notes on startups and how to build the future, focusing on creating new things rather than copying existing ones.",
+    publishedYear: 2014,
+    isbn: "9780804139021",
+  },
+  {
+    title: "The Psychology of Money",
+    author: "Morgan Housel",
+    genre: "Business",
+    pages: 256,
+    rating: 4.6,
+    dateFinished: new Date("2023-08-11"),
+    coverUrl: OL("9780857197689"),
+    description: "Timeless lessons on wealth, greed, and happiness through 19 short stories about how people think about money.",
+    publishedYear: 2020,
+    isbn: "9780857197689",
+  },
+  {
+    title: "The Hitchhiker's Guide to the Galaxy",
+    author: "Douglas Adams",
+    genre: "Science Fiction",
+    pages: 224,
+    rating: 4.7,
+    dateFinished: new Date("2022-04-01"),
+    coverUrl: OL("9780345391803"),
+    description: "Seconds before the Earth is demolished for a hyperspace bypass, Arthur Dent is saved by an alien friend.",
+    publishedYear: 1979,
+    isbn: "9780345391803",
+  },
+  {
+    title: "1984",
+    author: "George Orwell",
+    genre: "Dystopian Fiction",
+    pages: 328,
+    rating: 4.7,
+    dateFinished: new Date("2021-12-10"),
+    coverUrl: OL("9780451524935"),
+    description: "A chilling portrait of a totalitarian society under perpetual surveillance, where Big Brother watches everyone.",
+    publishedYear: 1949,
+    isbn: "9780451524935",
+  },
+  {
+    title: "Thinking in Systems",
+    author: "Donella Meadows",
+    genre: "Science",
+    pages: 235,
+    rating: 4.5,
+    dateFinished: null,
+    coverUrl: OL("9781603580557"),
+    description: "A primer on systems thinking that reveals how complex problems can be understood through the lens of interconnected systems.",
+    publishedYear: 2008,
+    isbn: "9781603580557",
+  },
+  {
+    title: "The Lean Startup",
+    author: "Eric Ries",
+    genre: "Business",
+    pages: 336,
+    rating: 4.0,
+    dateFinished: new Date("2021-10-15"),
+    coverUrl: OL("9780307887894"),
+    description: "How today's entrepreneurs use continuous innovation to create radically successful businesses.",
+    publishedYear: 2011,
+    isbn: "9780307887894",
+  },
+];
+
+async function main() {
+  console.log("Seeding database...");
+  await prisma.book.deleteMany();
+
+  for (const book of books) {
+    await prisma.book.create({
+      data: {
+        ...book,
+        estimatedWords: book.pages * WORDS_PER_PAGE,
+      },
+    });
+  }
+
+  console.log(`Seeded ${books.length} books.`);
+}
+
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

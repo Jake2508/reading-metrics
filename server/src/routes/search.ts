@@ -1,0 +1,19 @@
+import { Router, Request, Response } from "express";
+import { searchBooks } from "../services/searchService";
+
+const router = Router();
+
+router.get("/", async (req: Request, res: Response) => {
+  const q = req.query.q as string;
+  if (!q || q.trim().length < 2) {
+    return res.status(400).json({ error: "Query must be at least 2 characters" });
+  }
+  try {
+    const results = await searchBooks(q.trim());
+    res.json(results);
+  } catch (err) {
+    res.status(500).json({ error: "Search failed" });
+  }
+});
+
+export default router;

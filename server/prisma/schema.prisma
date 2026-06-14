@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Book {
+  id             String    @id @default(cuid())
+  title          String
+  author         String
+  genre          String
+  pages          Int
+  estimatedWords Int
+  rating         Float?
+  dateFinished   DateTime?
+  coverUrl       String?
+  description    String?
+  publishedYear  Int?
+  isbn           String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}

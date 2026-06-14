@@ -12,6 +12,7 @@ import type { AuthorBreakdownItem } from "../../../../shared/src/schemas";
 
 interface AuthorBarChartProps {
   data: AuthorBreakdownItem[];
+  height?: number;
 }
 
 const COLORS = ["#FF5252", "#FFEB3B", "#2196F3", "#4CAF50", "#FF9800", "#9C27B0"];
@@ -32,15 +33,15 @@ function shortName(name: string) {
   return parts[0][0] + ". " + parts[parts.length - 1];
 }
 
-export function AuthorBarChart({ data }: AuthorBarChartProps) {
+export function AuthorBarChart({ data, height = 220 }: AuthorBarChartProps) {
   const top = data.slice(0, 6).map((d) => ({ ...d, shortName: shortName(d.author) }));
   return (
     <div
       className="border-3 border-black bg-white p-5"
       style={{ borderWidth: "3px", boxShadow: "4px 4px 0 #000" }}
     >
-      <h3 className="text-base font-black text-black mb-4 uppercase tracking-wide">Top Authors</h3>
-      <ResponsiveContainer width="100%" height={220}>
+      <h3 className="text-base font-black text-black mb-3 uppercase tracking-wide">Top Authors</h3>
+      <ResponsiveContainer width="100%" height={height}>
         <BarChart data={top} layout="vertical" margin={{ top: 4, right: 16, left: 20, bottom: 0 }}>
           <CartesianGrid strokeDasharray="0" stroke="#000" strokeWidth={1} opacity={0.1} horizontal={false} />
           <XAxis

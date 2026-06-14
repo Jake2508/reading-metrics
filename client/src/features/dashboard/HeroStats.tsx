@@ -13,41 +13,41 @@ function formatNumber(n: number): string {
 
 export function HeroStats({ stats }: HeroStatsProps) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
       <MetricCard
         label="Books Read"
         value={stats.totalBooks}
         subtitle="in your library"
         color="yellow"
-        size="lg"
+        size="sm"
       />
       <MetricCard
         label="Pages Read"
         value={formatNumber(stats.totalPages)}
         subtitle="total pages"
         color="white"
-        size="lg"
+        size="sm"
       />
       <MetricCard
         label="Words Read"
         value={formatNumber(stats.estimatedWords)}
         subtitle="estimated"
         color="blue"
-        size="lg"
+        size="sm"
       />
       <MetricCard
         label="Top Author"
         value={stats.topAuthor?.name.split(" ").pop() ?? "—"}
         subtitle={stats.topAuthor ? `${stats.topAuthor.bookCount} books · ${stats.topAuthor.percentage}%` : "No data"}
         color="red"
-        size="lg"
+        size="sm"
       />
       <MetricCard
         label="Top Genre"
         value={stats.topGenre?.name ?? "—"}
         subtitle={stats.topGenre ? `${stats.topGenre.bookCount} books` : "No data"}
         color="white"
-        size="lg"
+        size="sm"
       />
     </div>
   );

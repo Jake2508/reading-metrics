@@ -2,11 +2,9 @@ import { useStats } from "./hooks/useStats";
 import { HeroStats } from "./HeroStats";
 import { FeaturedAuthor } from "./FeaturedAuthor";
 import { FeaturedBook } from "./FeaturedBook";
-import { ReadingDNA } from "./ReadingDNA";
 import { InsightCards } from "./InsightCards";
 import { GenreBarChart } from "../charts/GenreBarChart";
 import { AuthorBarChart } from "../charts/AuthorBarChart";
-import { TimelineChart } from "../charts/TimelineChart";
 
 function SkeletonCard({ className = "" }: { className?: string }) {
   return (
@@ -22,17 +20,25 @@ export function Dashboard() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col gap-6 p-6">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div className="flex flex-col gap-3 p-4">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {Array.from({ length: 5 }).map((_, i) => (
-            <SkeletonCard key={i} className="h-28" />
+            <SkeletonCard key={i} className="h-20" />
           ))}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <SkeletonCard className="h-52" />
-          <SkeletonCard className="h-52" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+          <SkeletonCard className="h-40" />
+          <SkeletonCard className="h-40" />
         </div>
-        <SkeletonCard className="h-48" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+          <SkeletonCard className="h-48" />
+          <SkeletonCard className="h-48" />
+        </div>
+        <div className="grid grid-cols-3 lg:grid-cols-6 gap-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <SkeletonCard key={i} className="h-20" />
+          ))}
+        </div>
       </div>
     );
   }
@@ -73,11 +79,8 @@ export function Dashboard() {
     );
   }
 
-  const hasTimeline = stats.readingTimeline.length >= 2;
-  const hasAuthors = stats.authorBreakdown.length >= 2;
-
   return (
-    <div className="flex flex-col gap-6 p-6">
+    <div className="flex flex-col gap-4 p-5">
       <HeroStats stats={stats} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -85,25 +88,12 @@ export function Dashboard() {
         <FeaturedBook stats={stats} />
       </div>
 
-      <ReadingDNA stats={stats} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <GenreBarChart data={stats.genreBreakdown} height={200} />
+        <AuthorBarChart data={stats.authorBreakdown} height={200} />
+      </div>
 
       <InsightCards stats={stats} />
-
-      <div className={`grid gap-4 ${hasTimeline && hasAuthors ? "grid-cols-1 lg:grid-cols-3" : "grid-cols-1 lg:grid-cols-2"}`}>
-        <div className={hasTimeline && hasAuthors ? "lg:col-span-1" : ""}>
-          <GenreBarChart data={stats.genreBreakdown} />
-        </div>
-        {hasAuthors && (
-          <div>
-            <AuthorBarChart data={stats.authorBreakdown} />
-          </div>
-        )}
-        {hasTimeline && (
-          <div className={hasAuthors ? "" : "lg:col-span-1"}>
-            <TimelineChart data={stats.readingTimeline} />
-          </div>
-        )}
-      </div>
     </div>
   );
 }

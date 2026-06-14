@@ -155,32 +155,6 @@ npm run build
 
 ---
 
-## Before pushing to GitHub
-
-### Files that are already gitignored — do not touch
-
-| File / folder | Why |
-|---------------|-----|
-| `server/.env` | Contains your local port and database path — never commit |
-| `server/prisma/dev.db` | Your personal SQLite database — binary file, never commit |
-| `server/src/generated/prisma/` | Auto-generated Prisma client, regenerated on install |
-| `node_modules/` | Dependencies, reinstalled on clone |
-| `client/dist/` | Build output, regenerated on build |
-
-### Files that SHOULD be committed
-
-| File | Why |
-|------|-----|
-| `client/public/data/books.json` | This is your live site data |
-| `client/public/data/stats.json` | This is your live site data |
-| `client/.env.production` | Only sets `VITE_STATIC_MODE=true` — not sensitive |
-
-### No API keys required
-
-Open Library is free and unauthenticated. Google Books is used as a fallback and works without a key for personal-scale usage. There are no secrets to manage beyond the local `.env` file.
-
----
-
 ## Project Structure
 
 ```

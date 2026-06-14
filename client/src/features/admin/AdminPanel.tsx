@@ -19,6 +19,7 @@ export function AdminPanel() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeQuery, setActiveQuery] = useState("");
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const { data: searchResults, isLoading: searchLoading } = useSearch(activeQuery);
   const { data: books } = useBooks();
@@ -71,8 +72,13 @@ export function AdminPanel() {
   };
 
   const handleDelete = async (id: string) => {
-    await deleteBook.mutateAsync(id);
-    setDeleteConfirmId(null);
+    try {
+      setDeleteError(null);
+      await deleteBook.mutateAsync(id);
+      setDeleteConfirmId(null);
+    } catch (err) {
+      setDeleteError(err instanceof Error ? err.message : "Delete failed");
+    }
   };
 
   return (
@@ -202,6 +208,12 @@ export function AdminPanel() {
 
       {view.type === "library" && (
         <div className="flex flex-col gap-3">
+          {deleteError && (
+            <div className="border-2 border-[#FF5252] bg-[#FF5252]/10 p-3">
+              <p className="font-bold text-sm text-[#FF5252]">Delete failed: {deleteError}</p>
+              <p className="text-xs font-semibold text-black/60 mt-1">Make sure the backend server is running on port 3002.</p>
+            </div>
+          )}
           {!books?.length && (
             <div className="border-2 border-black p-6 bg-[#FFEB3B] text-center"
               style={{ boxShadow: "3px 3px 0 #000" }}>

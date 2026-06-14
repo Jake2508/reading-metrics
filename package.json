@@ -6,6 +6,8 @@
     "dev:server": "cd server && npm run dev",
     "dev:client": "cd client && npm run dev",
     "seed": "cd server && npm run db:seed",
-    "migrate": "cd server && npm run db:migrate"
+    "migrate": "cd server && npm run db:migrate",
+    "export": "cd server && npx ts-node-dev --transpile-only src/scripts/export.ts",
+    "build": "cd client && npm run build"
   }
 }

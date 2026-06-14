@@ -1,0 +1,153 @@
+{
+  "totalBooks": 4,
+  "totalPages": 1418,
+  "estimatedWords": 389950,
+  "topAuthor": {
+    "name": "George Orwell",
+    "bookCount": 1,
+    "percentage": 25
+  },
+  "topGenre": {
+    "name": "Dystopian Fiction",
+    "bookCount": 1,
+    "percentage": 25
+  },
+  "averageRating": 4.4,
+  "averagePages": 355,
+  "longestBook": {
+    "id": "cmqdl39an000bumfo2uou7z5x",
+    "title": "Thinking, Fast and Slow",
+    "author": "Daniel Kahneman",
+    "genre": "Psychology",
+    "pages": 499,
+    "estimatedWords": 137225,
+    "rating": 4.3,
+    "dateFinished": "2022-12-05T00:00:00.000Z",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780374533557-L.jpg",
+    "description": "An exploration of the two systems that drive the way we think and make choices.",
+    "publishedYear": 2011,
+    "isbn": "9780374533557",
+    "createdAt": "2026-06-14T09:30:35.087Z",
+    "updatedAt": "2026-06-14T09:30:35.087Z"
+  },
+  "shortestBook": {
+    "id": "cmqdl39av000dumfodtwz9h6d",
+    "title": "Neuromancer",
+    "author": "William Gibson",
+    "genre": "Science Fiction",
+    "pages": 271,
+    "estimatedWords": 74525,
+    "rating": 4.1,
+    "dateFinished": "2023-06-14T00:00:00.000Z",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780441569595-L.jpg",
+    "description": "The novel that defined cyberpunk: a washed-up hacker is hired for one last job in a dystopian future.",
+    "publishedYear": 1984,
+    "isbn": "9780441569595",
+    "createdAt": "2026-06-14T09:30:35.095Z",
+    "updatedAt": "2026-06-14T09:30:35.095Z"
+  },
+  "mostRecentBook": {
+    "id": "cmqdl39av000dumfodtwz9h6d",
+    "title": "Neuromancer",
+    "author": "William Gibson",
+    "genre": "Science Fiction",
+    "pages": 271,
+    "estimatedWords": 74525,
+    "rating": 4.1,
+    "dateFinished": "2023-06-14T00:00:00.000Z",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780441569595-L.jpg",
+    "description": "The novel that defined cyberpunk: a washed-up hacker is hired for one last job in a dystopian future.",
+    "publishedYear": 1984,
+    "isbn": "9780441569595",
+    "createdAt": "2026-06-14T09:30:35.095Z",
+    "updatedAt": "2026-06-14T09:30:35.095Z"
+  },
+  "highestRatedBook": {
+    "id": "cmqdl39bb000humfodv9c8bts",
+    "title": "1984",
+    "author": "George Orwell",
+    "genre": "Dystopian Fiction",
+    "pages": 328,
+    "estimatedWords": 90200,
+    "rating": 4.7,
+    "dateFinished": "2021-12-10T00:00:00.000Z",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg",
+    "description": "A chilling portrait of a totalitarian society under perpetual surveillance, where Big Brother watches everyone.",
+    "publishedYear": 1949,
+    "isbn": "9780451524935",
+    "createdAt": "2026-06-14T09:30:35.111Z",
+    "updatedAt": "2026-06-14T09:30:35.111Z"
+  },
+  "genreBreakdown": [
+    {
+      "genre": "Dystopian Fiction",
+      "count": 1,
+      "pages": 328,
+      "percentage": 25
+    },
+    {
+      "genre": "Science Fiction",
+      "count": 1,
+      "pages": 271,
+      "percentage": 25
+    },
+    {
+      "genre": "Psychology",
+      "count": 1,
+      "pages": 499,
+      "percentage": 25
+    },
+    {
+      "genre": "Self-Help",
+      "count": 1,
+      "pages": 320,
+      "percentage": 25
+    }
+  ],
+  "authorBreakdown": [
+    {
+      "author": "George Orwell",
+      "count": 1,
+      "pages": 328
+    },
+    {
+      "author": "William Gibson",
+      "count": 1,
+      "pages": 271
+    },
+    {
+      "author": "Daniel Kahneman",
+      "count": 1,
+      "pages": 499
+    },
+    {
+      "author": "James Clear",
+      "count": 1,
+      "pages": 320
+    }
+  ],
+  "readingTimeline": [
+    {
+      "month": "2021-12",
+      "booksCompleted": 1,
+      "pagesRead": 328
+    },
+    {
+      "month": "2022-12",
+      "booksCompleted": 1,
+      "pagesRead": 499
+    },
+    {
+      "month": "2023-03",
+      "booksCompleted": 1,
+      "pagesRead": 320
+    },
+    {
+      "month": "2023-06",
+      "booksCompleted": 1,
+      "pagesRead": 271
+    }
+  ],
+  "diversityScore": 100,
+  "genresExplored": 4
+}

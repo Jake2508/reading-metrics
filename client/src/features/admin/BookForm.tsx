@@ -45,8 +45,9 @@ export function BookForm({ prefill, existingBook, onSubmit, onCancel, isSubmitti
     isbn: existingBook?.isbn ?? prefill?.isbn ?? "",
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { register, handleSubmit, formState: { errors }, watch } = useForm<FormValues>({
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(FormSchema) as any,
     defaultValues,
   });
 

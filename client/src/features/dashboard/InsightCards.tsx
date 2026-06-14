@@ -87,7 +87,7 @@ export function InsightCards({ stats }: InsightCardsProps) {
 
   return (
     <div>
-      <h2 className="text-xl font-black text-black mb-4">Quick Insights</h2>
+      <h2 className="text-sm font-black text-black uppercase tracking-widest mb-3">Quick Insights</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {insights.map((insight) => (
           <InsightItem key={insight.label} {...insight} />

@@ -12,6 +12,7 @@ import type { GenreBreakdownItem } from "../../../../shared/src/schemas";
 
 interface GenreBarChartProps {
   data: GenreBreakdownItem[];
+  height?: number;
 }
 
 const COLORS = ["#FFEB3B", "#FF5252", "#2196F3", "#4CAF50", "#FF9800", "#9C27B0", "#00BCD4"];
@@ -27,15 +28,15 @@ function CustomTooltip({ active, payload, label }: any) {
   );
 }
 
-export function GenreBarChart({ data }: GenreBarChartProps) {
+export function GenreBarChart({ data, height = 260 }: GenreBarChartProps) {
   const top = data.slice(0, 7);
   return (
     <div
       className="border-3 border-black bg-white p-5"
       style={{ borderWidth: "3px", boxShadow: "4px 4px 0 #000" }}
     >
-      <h3 className="text-base font-black text-black mb-4 uppercase tracking-wide">Genre Distribution</h3>
-      <ResponsiveContainer width="100%" height={260}>
+      <h3 className="text-base font-black text-black mb-3 uppercase tracking-wide">Genre Distribution</h3>
+      <ResponsiveContainer width="100%" height={height}>
         <BarChart data={top} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
           <CartesianGrid strokeDasharray="0" stroke="#000" strokeWidth={1} opacity={0.1} />
           <XAxis

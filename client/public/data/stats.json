@@ -1,50 +1,50 @@
 {
-  "totalBooks": 4,
-  "totalPages": 1418,
-  "estimatedWords": 389950,
+  "totalBooks": 59,
+  "totalPages": 22987,
+  "estimatedWords": 6321425,
   "topAuthor": {
-    "name": "George Orwell",
-    "bookCount": 1,
-    "percentage": 25
+    "name": "Stephen King",
+    "bookCount": 13,
+    "percentage": 22
   },
   "topGenre": {
-    "name": "Dystopian Fiction",
-    "bookCount": 1,
-    "percentage": 25
+    "name": "Fantasy",
+    "bookCount": 17,
+    "percentage": 29
   },
-  "averageRating": 4.4,
-  "averagePages": 355,
+  "averageRating": 4.1,
+  "averagePages": 390,
   "longestBook": {
-    "id": "cmqdl39an000bumfo2uou7z5x",
-    "title": "Thinking, Fast and Slow",
-    "author": "Daniel Kahneman",
-    "genre": "Psychology",
-    "pages": 499,
-    "estimatedWords": 137225,
-    "rating": 4.3,
-    "dateFinished": "2022-12-05T00:00:00.000Z",
-    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780374533557-L.jpg",
-    "description": "An exploration of the two systems that drive the way we think and make choices.",
-    "publishedYear": 2011,
-    "isbn": "9780374533557",
-    "createdAt": "2026-06-14T09:30:35.087Z",
-    "updatedAt": "2026-06-14T09:30:35.087Z"
+    "id": "cmqdnjnrd000jum50vj3yttwe",
+    "title": "It",
+    "author": "Stephen King",
+    "genre": "Mystery & Thriller",
+    "pages": 1168,
+    "estimatedWords": 321200,
+    "rating": 4.6,
+    "dateFinished": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/8569284-L.jpg",
+    "description": null,
+    "publishedYear": 1986,
+    "isbn": "6073157061",
+    "createdAt": "2026-06-14T10:39:19.561Z",
+    "updatedAt": "2026-06-14T10:39:19.561Z"
   },
   "shortestBook": {
-    "id": "cmqdl39av000dumfodtwz9h6d",
-    "title": "Neuromancer",
-    "author": "William Gibson",
-    "genre": "Science Fiction",
-    "pages": 271,
-    "estimatedWords": 74525,
+    "id": "cmqdnwz140019um50510jvfg1",
+    "title": "The Fall of the House of Usher",
+    "author": "Edgar Allan Poe",
+    "genre": "Romance",
+    "pages": 38,
+    "estimatedWords": 10450,
     "rating": 4.1,
-    "dateFinished": "2023-06-14T00:00:00.000Z",
-    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780441569595-L.jpg",
-    "description": "The novel that defined cyberpunk: a washed-up hacker is hired for one last job in a dystopian future.",
-    "publishedYear": 1984,
-    "isbn": "9780441569595",
-    "createdAt": "2026-06-14T09:30:35.095Z",
-    "updatedAt": "2026-06-14T09:30:35.095Z"
+    "dateFinished": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/11838138-L.jpg",
+    "description": null,
+    "publishedYear": 1704,
+    "isbn": "1549691228",
+    "createdAt": "2026-06-14T10:49:40.696Z",
+    "updatedAt": "2026-06-14T10:49:40.696Z"
   },
   "mostRecentBook": {
     "id": "cmqdl39av000dumfodtwz9h6d",
@@ -63,52 +63,274 @@
     "updatedAt": "2026-06-14T09:30:35.095Z"
   },
   "highestRatedBook": {
-    "id": "cmqdl39bb000humfodv9c8bts",
-    "title": "1984",
-    "author": "George Orwell",
-    "genre": "Dystopian Fiction",
-    "pages": 328,
-    "estimatedWords": 90200,
-    "rating": 4.7,
-    "dateFinished": "2021-12-10T00:00:00.000Z",
-    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg",
-    "description": "A chilling portrait of a totalitarian society under perpetual surveillance, where Big Brother watches everyone.",
-    "publishedYear": 1949,
-    "isbn": "9780451524935",
-    "createdAt": "2026-06-14T09:30:35.111Z",
-    "updatedAt": "2026-06-14T09:30:35.111Z"
+    "id": "cmqdnifix000hum50ypwrd9w2",
+    "title": "They Thirst",
+    "author": "Robert R. McCammon",
+    "genre": "Horror",
+    "pages": 531,
+    "estimatedWords": 146025,
+    "rating": 4.8,
+    "dateFinished": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/4649991-L.jpg",
+    "description": null,
+    "publishedYear": 1981,
+    "isbn": "0671735632",
+    "createdAt": "2026-06-14T10:38:22.234Z",
+    "updatedAt": "2026-06-14T10:38:22.234Z"
   },
   "genreBreakdown": [
+    {
+      "genre": "Fantasy",
+      "count": 17,
+      "pages": 6461,
+      "percentage": 29
+    },
+    {
+      "genre": "Science Fiction",
+      "count": 10,
+      "pages": 4103,
+      "percentage": 17
+    },
+    {
+      "genre": "Horror",
+      "count": 8,
+      "pages": 3725,
+      "percentage": 14
+    },
+    {
+      "genre": "Mystery & Thriller",
+      "count": 6,
+      "pages": 3345,
+      "percentage": 10
+    },
+    {
+      "genre": "History",
+      "count": 4,
+      "pages": 1135,
+      "percentage": 7
+    },
+    {
+      "genre": "Self-Help",
+      "count": 2,
+      "pages": 523,
+      "percentage": 3
+    },
+    {
+      "genre": "Unknown",
+      "count": 2,
+      "pages": 832,
+      "percentage": 3
+    },
+    {
+      "genre": "Psychology",
+      "count": 2,
+      "pages": 859,
+      "percentage": 3
+    },
+    {
+      "genre": "Greek Epic Poetry",
+      "count": 1,
+      "pages": 352,
+      "percentage": 2
+    },
+    {
+      "genre": "Married People",
+      "count": 1,
+      "pages": 278,
+      "percentage": 2
+    },
+    {
+      "genre": "Romance",
+      "count": 1,
+      "pages": 38,
+      "percentage": 2
+    },
+    {
+      "genre": "Juvenile Literature",
+      "count": 1,
+      "pages": 89,
+      "percentage": 2
+    },
+    {
+      "genre": "Memoir",
+      "count": 1,
+      "pages": 288,
+      "percentage": 2
+    },
+    {
+      "genre": "Allegories",
+      "count": 1,
+      "pages": 311,
+      "percentage": 2
+    },
+    {
+      "genre": "Fiction",
+      "count": 1,
+      "pages": 320,
+      "percentage": 2
+    },
     {
       "genre": "Dystopian Fiction",
       "count": 1,
       "pages": 328,
-      "percentage": 25
-    },
-    {
-      "genre": "Science Fiction",
-      "count": 1,
-      "pages": 271,
-      "percentage": 25
-    },
-    {
-      "genre": "Psychology",
-      "count": 1,
-      "pages": 499,
-      "percentage": 25
-    },
-    {
-      "genre": "Self-Help",
-      "count": 1,
-      "pages": 320,
-      "percentage": 25
+      "percentage": 2
     }
   ],
   "authorBreakdown": [
     {
+      "author": "Stephen King",
+      "count": 13,
+      "pages": 7991
+    },
+    {
       "author": "George Orwell",
+      "count": 5,
+      "pages": 1298
+    },
+    {
+      "author": "H. G. Wells",
+      "count": 5,
+      "pages": 920
+    },
+    {
+      "author": "Ray Bradbury",
+      "count": 3,
+      "pages": 700
+    },
+    {
+      "author": "Robert R. McCammon",
+      "count": 3,
+      "pages": 2031
+    },
+    {
+      "author": "Anne Rice",
+      "count": 2,
+      "pages": 955
+    },
+    {
+      "author": "H.P. Lovecraft",
       "count": 1,
-      "pages": 328
+      "pages": 880
+    },
+    {
+      "author": "Marcus Aurelius",
+      "count": 1,
+      "pages": 203
+    },
+    {
+      "author": "George A. Romero",
+      "count": 1,
+      "pages": 384
+    },
+    {
+      "author": "Όμηρος",
+      "count": 1,
+      "pages": 352
+    },
+    {
+      "author": "Oscar Wilde",
+      "count": 1,
+      "pages": 246
+    },
+    {
+      "author": "Jane Austen",
+      "count": 1,
+      "pages": 352
+    },
+    {
+      "author": "Edgar Allan Poe",
+      "count": 1,
+      "pages": 38
+    },
+    {
+      "author": "Leslie Shepard",
+      "count": 1,
+      "pages": 89
+    },
+    {
+      "author": "Фёдор Михайлович Достоевский",
+      "count": 1,
+      "pages": 296
+    },
+    {
+      "author": "Chris Voss",
+      "count": 1,
+      "pages": 288
+    },
+    {
+      "author": "John Steinbeck",
+      "count": 1,
+      "pages": 119
+    },
+    {
+      "author": "F. Scott Fitzgerald",
+      "count": 1,
+      "pages": 185
+    },
+    {
+      "author": "Kurt Vonnegut",
+      "count": 1,
+      "pages": 319
+    },
+    {
+      "author": "Andrzej Klimowski",
+      "count": 1,
+      "pages": 127
+    },
+    {
+      "author": "William Golding",
+      "count": 1,
+      "pages": 243
+    },
+    {
+      "author": "Matthew P. Walker",
+      "count": 1,
+      "pages": 360
+    },
+    {
+      "author": "Ken Kesey",
+      "count": 1,
+      "pages": 311
+    },
+    {
+      "author": "Anthony Burgess",
+      "count": 1,
+      "pages": 192
+    },
+    {
+      "author": "Franz Kafka",
+      "count": 1,
+      "pages": 88
+    },
+    {
+      "author": "Mary Shelley",
+      "count": 1,
+      "pages": 448
+    },
+    {
+      "author": "Bram Stoker",
+      "count": 1,
+      "pages": 408
+    },
+    {
+      "author": "Shirley Jackson",
+      "count": 1,
+      "pages": 246
+    },
+    {
+      "author": "Suzanne Collins",
+      "count": 1,
+      "pages": 1108
+    },
+    {
+      "author": "Harper Lee",
+      "count": 1,
+      "pages": 320
+    },
+    {
+      "author": "William Peter Blatty",
+      "count": 1,
+      "pages": 400
     },
     {
       "author": "William Gibson",
@@ -127,6 +349,11 @@
     }
   ],
   "readingTimeline": [
+    {
+      "month": "2020-01",
+      "booksCompleted": 1,
+      "pagesRead": 400
+    },
     {
       "month": "2021-12",
       "booksCompleted": 1,
@@ -148,6 +375,6 @@
       "pagesRead": 271
     }
   ],
-  "diversityScore": 100,
-  "genresExplored": 4
+  "diversityScore": 54,
+  "genresExplored": 16
 }

@@ -1,4 +1,4 @@
-# ReadTrack — Reading Metrics Dashboard
+# Index — Reading Metrics Dashboard
 
 A personal reading analytics dashboard built with a Neubrutalist design. Tracks books, visualises reading habits, and deploys as a fully static site with no backend required on the live version.
 

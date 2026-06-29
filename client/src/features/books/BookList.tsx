@@ -7,15 +7,30 @@ import type { Book } from "../../../../shared/src/schemas";
 function applyFilter(books: Book[], filter: string): Book[] {
   if (!filter || filter === "all") return books;
   if (filter.startsWith("genre:")) return books.filter((b) => b.genre === filter.slice(6));
-  if (filter === "rating:5") return books.filter((b) => b.rating != null && b.rating === 5);
-  if (filter === "rating:4+") return books.filter((b) => b.rating != null && b.rating >= 4);
-  if (filter === "rating:3+") return books.filter((b) => b.rating != null && b.rating >= 3);
+  if (filter === "rating:high")
+    return [...books].sort((a, b) => (b.rating ?? -1) - (a.rating ?? -1));
+  if (filter === "rating:low")
+    return [...books].sort((a, b) => {
+      if (a.rating == null && b.rating == null) return 0;
+      if (a.rating == null) return 1;
+      if (b.rating == null) return -1;
+      return a.rating - b.rating;
+    });
   if (filter === "rating:unrated") return books.filter((b) => !b.rating);
-  if (filter === "size:short") return books.filter((b) => b.pages < 200);
-  if (filter === "size:medium") return books.filter((b) => b.pages >= 200 && b.pages < 400);
-  if (filter === "size:long") return books.filter((b) => b.pages >= 400 && b.pages < 600);
-  if (filter === "size:epic") return books.filter((b) => b.pages >= 600);
+  if (filter === "size:largest") return [...books].sort((a, b) => b.pages - a.pages);
+  if (filter === "size:smallest") return [...books].sort((a, b) => a.pages - b.pages);
   return books;
+}
+
+function applySearch(books: Book[], search: string): Book[] {
+  const q = search.trim().toLowerCase();
+  if (!q) return books;
+  return books.filter(
+    (b) =>
+      b.title.toLowerCase().includes(q) ||
+      b.author.toLowerCase().includes(q) ||
+      b.genre.toLowerCase().includes(q)
+  );
 }
 
 type OptionGroup = {
@@ -105,11 +120,165 @@ function FilterDropdown({
   );
 }
 
+type AuthorGroup = {
+  author: string;
+  books: Book[];
+  totalPages: number;
+  avgRating: number | null;
+  genres: string[];
+};
+
+function groupByAuthor(books: Book[]): AuthorGroup[] {
+  const map = new Map<string, Book[]>();
+  for (const book of books) {
+    if (!map.has(book.author)) map.set(book.author, []);
+    map.get(book.author)!.push(book);
+  }
+  return [...map.entries()]
+    .map(([author, authorBooks]) => {
+      const rated = authorBooks.filter((b) => b.rating != null);
+      return {
+        author,
+        books: authorBooks,
+        totalPages: authorBooks.reduce((sum, b) => sum + b.pages, 0),
+        avgRating:
+          rated.length > 0
+            ? rated.reduce((sum, b) => sum + b.rating!, 0) / rated.length
+            : null,
+        genres: [...new Set(authorBooks.map((b) => b.genre))],
+      };
+    })
+    .sort((a, b) => b.books.length - a.books.length || a.author.localeCompare(b.author));
+}
+
+function MiniBookRow({ book }: { book: Book }) {
+  return (
+    <div className="flex gap-3 items-center py-2.5 border-b border-black/10 last:border-0">
+      <BookCover
+        coverUrl={book.coverUrl}
+        title={book.title}
+        author={book.author}
+        className="w-8 h-11 flex-shrink-0"
+      />
+      <div className="flex-1 min-w-0">
+        <p className="font-black text-xs leading-tight truncate">{book.title}</p>
+        <div className="flex gap-1 mt-1 flex-wrap">
+          <Badge color="black">{book.genre}</Badge>
+          {book.rating && <Badge color="yellow">{book.rating}/5</Badge>}
+          {book.publishedYear && (
+            <span className="text-xs font-semibold text-black/40">{book.publishedYear}</span>
+          )}
+        </div>
+      </div>
+      <div className="text-right flex-shrink-0">
+        <div className="text-sm font-black">{book.pages.toLocaleString()}</div>
+        <div className="text-xs font-bold text-black/50">pages</div>
+        {book.dateFinished && (
+          <div className="text-xs font-semibold text-black/40 mt-0.5">
+            {new Date(book.dateFinished).toLocaleDateString("en-US", {
+              month: "short",
+              year: "numeric",
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function AuthorCard({ group }: { group: AuthorGroup }) {
+  const [expanded, setExpanded] = useState(false);
+
+  const topBooks = [...group.books]
+    .sort((a, b) => (b.rating ?? -1) - (a.rating ?? -1))
+    .slice(0, 3);
+
+  return (
+    <div
+      className="border-black bg-white"
+      style={{ borderWidth: "3px", border: "3px solid #000", boxShadow: "4px 4px 0 #000" }}
+    >
+      <button
+        className="w-full p-4 flex gap-4 items-center text-left hover:bg-[#FFEB3B]/20 transition-colors"
+        onClick={() => setExpanded((e) => !e)}
+      >
+        <div className="flex items-center flex-shrink-0">
+          {topBooks.map((book, i) => (
+            <div
+              key={book.id}
+              className="border-2 border-black"
+              style={{ marginLeft: i === 0 ? 0 : -10, zIndex: topBooks.length - i, position: "relative" }}
+            >
+              <BookCover
+                coverUrl={book.coverUrl}
+                title={book.title}
+                author={book.author}
+                className="w-10 h-14"
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <h3 className="font-black text-base leading-tight">{group.author}</h3>
+          <div className="flex flex-wrap gap-1.5 mt-2">
+            {group.genres.map((g) => (
+              <Badge key={g} color="black">{g}</Badge>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex gap-4 items-center flex-shrink-0">
+          <div className="text-center">
+            <div className="text-xl font-black leading-none">{group.books.length}</div>
+            <div className="text-xs font-bold text-black/50 mt-0.5">
+              {group.books.length === 1 ? "book" : "books"}
+            </div>
+          </div>
+          <div className="text-center">
+            <div className="text-xl font-black leading-none">{group.totalPages.toLocaleString()}</div>
+            <div className="text-xs font-bold text-black/50 mt-0.5">pages</div>
+          </div>
+          {group.avgRating != null && (
+            <div className="text-center">
+              <div className="text-xl font-black leading-none">{group.avgRating.toFixed(1)}</div>
+              <div className="text-xs font-bold text-black/50 mt-0.5">avg</div>
+            </div>
+          )}
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            style={{
+              transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 150ms",
+              flexShrink: 0,
+            }}
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </div>
+      </button>
+
+      {expanded && (
+        <div className="border-t-2 border-black px-4 bg-black/[0.02]">
+          {group.books.map((book) => (
+            <MiniBookRow key={book.id} book={book} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function BookRow({ book }: { book: Book }) {
   return (
     <div
-      className="border-3 border-black bg-white p-4 flex gap-4 items-start hover:-translate-y-0.5 transition-transform"
-      style={{ borderWidth: "3px", boxShadow: "4px 4px 0 #000" }}
+      className="border-black bg-white p-4 flex gap-4 items-start hover:-translate-y-0.5 transition-transform"
+      style={{ borderWidth: "3px", border: "3px solid #000", boxShadow: "4px 4px 0 #000" }}
     >
       <BookCover
         coverUrl={book.coverUrl}
@@ -130,7 +299,10 @@ function BookRow({ book }: { book: Book }) {
         <div className="text-xs font-bold text-black/50">pages</div>
         {book.dateFinished && (
           <div className="text-xs font-semibold text-black/40 mt-1">
-            {new Date(book.dateFinished).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
+            {new Date(book.dateFinished).toLocaleDateString("en-US", {
+              month: "short",
+              year: "numeric",
+            })}
           </div>
         )}
       </div>
@@ -141,13 +313,18 @@ function BookRow({ book }: { book: Book }) {
 export function BookList() {
   const { data: books, isLoading, error } = useBooks();
   const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
+  const [viewMode, setViewMode] = useState<"books" | "authors">("books");
 
   if (isLoading) {
     return (
       <div className="p-6 flex flex-col gap-3">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="border-3 border-black h-24 animate-pulse bg-gray-100"
-            style={{ borderWidth: "3px", boxShadow: "4px 4px 0 #000" }} />
+          <div
+            key={i}
+            className="border-black h-24 animate-pulse bg-gray-100"
+            style={{ borderWidth: "3px", border: "3px solid #000", boxShadow: "4px 4px 0 #000" }}
+          />
         ))}
       </div>
     );
@@ -156,8 +333,10 @@ export function BookList() {
   if (error) {
     return (
       <div className="p-6">
-        <div className="border-3 border-black bg-[#FF5252] p-4 text-white"
-          style={{ borderWidth: "3px", boxShadow: "4px 4px 0 #000" }}>
+        <div
+          className="border-black bg-[#FF5252] p-4 text-white"
+          style={{ borderWidth: "3px", border: "3px solid #000", boxShadow: "4px 4px 0 #000" }}
+        >
           <p className="font-black">Failed to load books: {error.message}</p>
         </div>
       </div>
@@ -167,8 +346,10 @@ export function BookList() {
   if (!books?.length) {
     return (
       <div className="p-6 flex items-center justify-center min-h-64">
-        <div className="border-3 border-black bg-[#FFEB3B] p-8 text-center"
-          style={{ borderWidth: "3px", boxShadow: "4px 4px 0 #000" }}>
+        <div
+          className="border-black bg-[#FFEB3B] p-8 text-center"
+          style={{ borderWidth: "3px", border: "3px solid #000", boxShadow: "4px 4px 0 #000" }}
+        >
           <p className="font-black text-xl">No books in your library</p>
           <p className="text-sm font-semibold text-black/60 mt-2">Use Admin to add your first book.</p>
         </div>
@@ -177,7 +358,11 @@ export function BookList() {
   }
 
   const genres = [...new Set(books.map((b) => b.genre))].sort();
-  const filtered = applyFilter(books, filter);
+  const afterFilter = applyFilter(books, filter);
+  const filtered = applySearch(afterFilter, search);
+  const authorGroups = viewMode === "authors" ? groupByAuthor(filtered) : [];
+  const isFiltered = filter !== "all" || search.trim().length > 0;
+  const totalAuthors = [...new Set(books.map((b) => b.author))].length;
 
   const filterGroups: OptionGroup[] = [
     {
@@ -187,54 +372,108 @@ export function BookList() {
     {
       label: "Rating",
       options: [
-        { value: "rating:5", label: "5 Stars" },
-        { value: "rating:4+", label: "4+ Stars" },
-        { value: "rating:3+", label: "3+ Stars" },
+        { value: "rating:high", label: "Top Rated" },
+        { value: "rating:low", label: "Lowest Rated" },
         { value: "rating:unrated", label: "Unrated" },
       ],
     },
     {
       label: "Size",
       options: [
-        { value: "size:short", label: "Short  (<200 pages)" },
-        { value: "size:medium", label: "Medium  (200–400)" },
-        { value: "size:long", label: "Long  (400–600)" },
-        { value: "size:epic", label: "Epic  (600+)" },
+        { value: "size:largest", label: "Heaviest Read" },
+        { value: "size:smallest", label: "Lightest Read" },
       ],
     },
   ];
 
+  const countLabel =
+    viewMode === "authors"
+      ? `${authorGroups.length}${isFiltered ? `/${totalAuthors}` : ""} Author${authorGroups.length !== 1 ? "s" : ""}`
+      : `${filtered.length}${isFiltered ? `/${books.length}` : ""} Book${filtered.length !== 1 ? "s" : ""}`;
+
   return (
     <div className="p-6">
-      <div className="flex items-center justify-between mb-5 gap-3 flex-wrap">
+      <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
         <h1 className="text-2xl font-black">My Library</h1>
-        <div className="flex items-center gap-3">
-          <FilterDropdown
-            value={filter}
-            onChange={setFilter}
-            groups={filterGroups}
-            allLabel="All Books"
-          />
-          <div className="border-2 border-black px-3 py-1.5 bg-[#FFEB3B]"
-            style={{ boxShadow: "2px 2px 0 #000" }}>
-            <span className="text-sm font-black">
-              {filtered.length}{filter !== "all" ? `/${books.length}` : ""} Books
-            </span>
-          </div>
+        <div className="flex border-2 border-black" style={{ boxShadow: "3px 3px 0 #000" }}>
+          <button
+            className={`px-4 py-1.5 text-sm font-black border-r-2 border-black transition-colors ${
+              viewMode === "books" ? "bg-[#FFEB3B]" : "bg-white hover:bg-[#FFEB3B]/40"
+            }`}
+            onClick={() => setViewMode("books")}
+          >
+            Book View
+          </button>
+          <button
+            className={`px-4 py-1.5 text-sm font-black transition-colors ${
+              viewMode === "authors" ? "bg-[#FFEB3B]" : "bg-white hover:bg-[#FFEB3B]/40"
+            }`}
+            onClick={() => setViewMode("authors")}
+          >
+            Author View
+          </button>
         </div>
       </div>
 
-      {filtered.length === 0 ? (
-        <div className="border-2 border-black p-6 bg-white text-center"
-          style={{ boxShadow: "3px 3px 0 #000" }}>
-          <p className="font-black text-black/60">No books match this filter.</p>
+      <div className="flex items-center gap-3 mb-5 flex-wrap">
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder={
+            viewMode === "authors"
+              ? "Search authors, titles, genres…"
+              : "Search titles, authors, genres…"
+          }
+          className="flex-1 min-w-40 border-2 border-black px-3 py-1.5 text-sm font-medium bg-white focus:outline-none focus:ring-2 focus:ring-black"
+          style={{ boxShadow: "2px 2px 0 #000" }}
+        />
+        <FilterDropdown
+          value={filter}
+          onChange={setFilter}
+          groups={filterGroups}
+          allLabel={viewMode === "authors" ? "All Authors" : "All Books"}
+        />
+        <div
+          className="border-2 border-black px-3 py-1.5 bg-[#FFEB3B]"
+          style={{ boxShadow: "2px 2px 0 #000" }}
+        >
+          <span className="text-sm font-black">{countLabel}</span>
         </div>
-      ) : (
-        <div className="flex flex-col gap-3">
-          {filtered.map((book) => (
-            <BookRow key={book.id} book={book} />
-          ))}
-        </div>
+      </div>
+
+      {viewMode === "books" && (
+        filtered.length === 0 ? (
+          <div
+            className="border-2 border-black p-6 bg-white text-center"
+            style={{ boxShadow: "3px 3px 0 #000" }}
+          >
+            <p className="font-black text-black/60">No books match this filter.</p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {filtered.map((book) => (
+              <BookRow key={book.id} book={book} />
+            ))}
+          </div>
+        )
+      )}
+
+      {viewMode === "authors" && (
+        authorGroups.length === 0 ? (
+          <div
+            className="border-2 border-black p-6 bg-white text-center"
+            style={{ boxShadow: "3px 3px 0 #000" }}
+          >
+            <p className="font-black text-black/60">No authors match this filter.</p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {authorGroups.map((group) => (
+              <AuthorCard key={group.author} group={group} />
+            ))}
+          </div>
+        )
       )}
     </div>
   );

@@ -37,10 +37,11 @@ export function AdminPanel() {
   const [view, setView] = useState<AdminView>({ type: "search" });
   const [searchQuery, setSearchQuery] = useState("");
   const [activeQuery, setActiveQuery] = useState("");
+  const [searchLimit, setSearchLimit] = useState(10);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
-  const { data: searchResults, isLoading: searchLoading } = useSearch(activeQuery);
+  const { data: searchResults, isLoading: searchLoading } = useSearch(activeQuery, searchLimit);
   const { data: books } = useBooks();
   const createBook = useCreateBook();
   const updateBook = useUpdateBook();
@@ -143,6 +144,20 @@ export function AdminPanel() {
                 placeholder="Book title or author..."
                 className="flex-1 border-2 border-black px-3 py-2 text-sm font-medium bg-white focus:outline-none focus:ring-2 focus:ring-black"
               />
+              <div className="flex flex-col justify-center items-center">
+                <label className="text-[10px] font-black uppercase tracking-wide leading-none mb-1">Results</label>
+                <input
+                  type="number"
+                  min={1}
+                  max={40}
+                  value={searchLimit}
+                  onChange={(e) => {
+                    const v = Math.min(40, Math.max(1, parseInt(e.target.value, 10) || 1));
+                    setSearchLimit(v);
+                  }}
+                  className="w-14 border-2 border-black px-2 py-2 text-sm font-medium bg-white focus:outline-none focus:ring-2 focus:ring-black text-center"
+                />
+              </div>
               <Button onClick={handleSearch} variant="secondary" disabled={searchQuery.trim().length < 2}>
                 Search
               </Button>

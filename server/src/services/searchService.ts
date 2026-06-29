@@ -19,13 +19,13 @@ function normalizeGenre(subjects: string[]): string {
   return subjects[0].split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ").slice(0, 30);
 }
 
-async function searchOpenLibrary(query: string): Promise<BookSearchResult[]> {
-  const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=40&fields=key,title,author_name,number_of_pages_median,cover_i,subject,first_publish_year,isbn`;
+async function searchOpenLibrary(query: string, limit: number): Promise<BookSearchResult[]> {
+  const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=${limit}&fields=key,title,author_name,number_of_pages_median,cover_i,subject,first_publish_year,isbn`;
   const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
   if (!res.ok) throw new Error("Open Library request failed");
   const data = await res.json() as any;
 
-  return (data.docs ?? []).slice(0, 40).map((doc: any): BookSearchResult => ({
+  return (data.docs ?? []).slice(0, limit).map((doc: any): BookSearchResult => ({
     externalId: doc.key ?? "",
     title: doc.title ?? "Unknown Title",
     author: Array.isArray(doc.author_name) ? doc.author_name[0] : "Unknown Author",
@@ -39,13 +39,13 @@ async function searchOpenLibrary(query: string): Promise<BookSearchResult[]> {
   }));
 }
 
-async function searchGoogleBooks(query: string): Promise<BookSearchResult[]> {
-  const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=40`;
+async function searchGoogleBooks(query: string, limit: number): Promise<BookSearchResult[]> {
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=${limit}`;
   const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
   if (!res.ok) throw new Error("Google Books request failed");
   const data = await res.json() as any;
 
-  return (data.items ?? []).slice(0, 40).map((item: any): BookSearchResult => {
+  return (data.items ?? []).slice(0, limit).map((item: any): BookSearchResult => {
     const info = item.volumeInfo ?? {};
     return {
       externalId: item.id ?? "",
@@ -64,14 +64,15 @@ async function searchGoogleBooks(query: string): Promise<BookSearchResult[]> {
   });
 }
 
-export async function searchBooks(query: string): Promise<BookSearchResult[]> {
+export async function searchBooks(query: string, limit: number = 40): Promise<BookSearchResult[]> {
+  const clampedLimit = Math.min(40, Math.max(1, limit));
   try {
-    const results = await searchOpenLibrary(query);
+    const results = await searchOpenLibrary(query, clampedLimit);
     if (results.length > 0) return results;
   } catch (_) {}
 
   try {
-    return await searchGoogleBooks(query);
+    return await searchGoogleBooks(query, clampedLimit);
   } catch (_) {}
 
   return [];

@@ -20,12 +20,12 @@ function normalizeGenre(subjects: string[]): string {
 }
 
 async function searchOpenLibrary(query: string): Promise<BookSearchResult[]> {
-  const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=10&fields=key,title,author_name,number_of_pages_median,cover_i,subject,first_publish_year,isbn`;
+  const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=40&fields=key,title,author_name,number_of_pages_median,cover_i,subject,first_publish_year,isbn`;
   const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
   if (!res.ok) throw new Error("Open Library request failed");
   const data = await res.json() as any;
 
-  return (data.docs ?? []).slice(0, 10).map((doc: any): BookSearchResult => ({
+  return (data.docs ?? []).slice(0, 40).map((doc: any): BookSearchResult => ({
     externalId: doc.key ?? "",
     title: doc.title ?? "Unknown Title",
     author: Array.isArray(doc.author_name) ? doc.author_name[0] : "Unknown Author",
@@ -40,12 +40,12 @@ async function searchOpenLibrary(query: string): Promise<BookSearchResult[]> {
 }
 
 async function searchGoogleBooks(query: string): Promise<BookSearchResult[]> {
-  const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=10`;
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=40`;
   const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
   if (!res.ok) throw new Error("Google Books request failed");
   const data = await res.json() as any;
 
-  return (data.items ?? []).slice(0, 10).map((item: any): BookSearchResult => {
+  return (data.items ?? []).slice(0, 40).map((item: any): BookSearchResult => {
     const info = item.volumeInfo ?? {};
     return {
       externalId: item.id ?? "",

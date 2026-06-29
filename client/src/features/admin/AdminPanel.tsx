@@ -8,6 +8,25 @@ import { Badge } from "../../components/ui/Badge";
 import { Input } from "../../components/ui/Input";
 import type { BookSearchResult, Book } from "../../../../shared/src/schemas";
 
+function isDuplicateBook(
+  candidate: { title?: string; author?: string; isbn?: string | null },
+  books: Book[]
+): Book | undefined {
+  const norm = (s: string) => s.trim().toLowerCase();
+  return books.find((b) => {
+    if (
+      candidate.isbn &&
+      b.isbn &&
+      candidate.isbn.replace(/[-\s]/g, "") === b.isbn.replace(/[-\s]/g, "")
+    )
+      return true;
+    return (
+      norm(b.title) === norm(candidate.title ?? "") &&
+      norm(b.author) === norm(candidate.author ?? "")
+    );
+  });
+}
+
 type AdminView =
   | { type: "search" }
   | { type: "form-new"; prefill?: Partial<BookSearchResult> }
@@ -26,6 +45,11 @@ export function AdminPanel() {
   const createBook = useCreateBook();
   const updateBook = useUpdateBook();
   const deleteBook = useDeleteBook();
+
+  const formNewDuplicate =
+    view.type === "form-new" && view.prefill
+      ? isDuplicateBook(view.prefill, books ?? [])
+      : undefined;
 
   const handleSearch = () => {
     if (searchQuery.trim().length >= 2) {
@@ -154,33 +178,41 @@ export function AdminPanel() {
                   </Button>
                 </div>
               )}
-              {searchResults.map((result) => (
-                <div
-                  key={result.externalId}
-                  className="border-2 border-black bg-white p-3 flex gap-3 items-start cursor-pointer hover:-translate-y-0.5 transition-transform"
-                  style={{ boxShadow: "3px 3px 0 #000" }}
-                  onClick={() => handleSelectResult(result)}
-                >
-                  <BookCover
-                    coverUrl={result.coverUrl}
-                    title={result.title}
-                    author={result.author}
-                    className="w-10 h-14 flex-shrink-0"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <p className="font-black text-sm leading-tight">{result.title}</p>
-                    <p className="text-xs font-bold text-black/60 mt-0.5">{result.author}</p>
-                    <div className="flex gap-1.5 mt-1">
-                      <Badge color="black">{result.genre}</Badge>
-                      {result.pages && <Badge color="yellow">{result.pages}pp</Badge>}
-                      {result.publishedYear && <span className="text-xs font-semibold text-black/40">{result.publishedYear}</span>}
+              {searchResults.map((result) => {
+                const alreadyAdded = isDuplicateBook(result, books ?? []);
+                return (
+                  <div
+                    key={result.externalId}
+                    className="border-2 border-black bg-white p-3 flex gap-3 items-start cursor-pointer hover:-translate-y-0.5 transition-transform"
+                    style={{ boxShadow: "3px 3px 0 #000" }}
+                    onClick={() => handleSelectResult(result)}
+                  >
+                    <BookCover
+                      coverUrl={result.coverUrl}
+                      title={result.title}
+                      author={result.author}
+                      className="w-10 h-14 flex-shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-black text-sm leading-tight">{result.title}</p>
+                      <p className="text-xs font-bold text-black/60 mt-0.5">{result.author}</p>
+                      <div className="flex gap-1.5 mt-1 flex-wrap">
+                        <Badge color="black">{result.genre}</Badge>
+                        {result.pages && <Badge color="yellow">{result.pages}pp</Badge>}
+                        {result.publishedYear && <span className="text-xs font-semibold text-black/40">{result.publishedYear}</span>}
+                        {alreadyAdded && (
+                          <span className="text-xs font-black text-[#FF5252] border-2 border-[#FF5252] px-1.5 py-0.5 leading-none">
+                            In library
+                          </span>
+                        )}
+                      </div>
                     </div>
+                    <Button size="sm" variant="primary" onClick={(e) => { e.stopPropagation(); handleSelectResult(result); }}>
+                      Select
+                    </Button>
                   </div>
-                  <Button size="sm" variant="primary" onClick={(e) => { e.stopPropagation(); handleSelectResult(result); }}>
-                    Select
-                  </Button>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -194,6 +226,14 @@ export function AdminPanel() {
           <h2 className="font-black text-lg mb-4">
             {view.prefill ? "Review & Edit Book" : "Add Book Manually"}
           </h2>
+          {formNewDuplicate && (
+            <div className="border-2 border-[#FF5252] bg-[#FF5252]/10 p-3 mb-4">
+              <p className="font-black text-sm text-[#FF5252]">Already in your library</p>
+              <p className="text-xs font-semibold text-black/70 mt-0.5">
+                "{formNewDuplicate.title}" by {formNewDuplicate.author} has already been added.
+              </p>
+            </div>
+          )}
           <BookForm
             prefill={view.prefill}
             onSubmit={handleCreateSubmit}

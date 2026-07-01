@@ -12,7 +12,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <div className="min-h-screen bg-[#f5f5f5]">
+        <div className="min-h-screen">
           <Nav />
           <main className="max-w-6xl mx-auto">
             <Routes>

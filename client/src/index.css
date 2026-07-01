@@ -16,7 +16,10 @@
   }
   body {
     font-family: "Inter", system-ui, sans-serif;
-    background-color: #f5f5f5;
+    background-color: #FAF7EC; /* cream */
+    background-image:
+      linear-gradient(90deg, transparent 26px, #FF525233 26px 27px, transparent 27px),
+      repeating-linear-gradient(#0000 0 24px, #2196F330 24px 25px);
     color: #000;
   }
 }

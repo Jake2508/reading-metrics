@@ -56,7 +56,7 @@ export const api = {
   },
 
   search: {
-    query: (q: string) =>
-      request<BookSearchResult[]>(`/search?q=${encodeURIComponent(q)}`),
+    query: (q: string, limit?: number) =>
+      request<BookSearchResult[]>(`/search?q=${encodeURIComponent(q)}${limit !== undefined ? `&limit=${limit}` : ""}`),
   },
 };

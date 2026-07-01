@@ -67,21 +67,17 @@ Populates the database with 20 sample books so the dashboard looks complete imme
 
 ### 5. Run the dev servers
 
-Open **two terminals**:
+From the project root, run both at once:
 
-**Terminal 1 — Backend (port 3002):**
 ```bash
-cd server
 npm run dev
 ```
 
-**Terminal 2 — Frontend (port 5174):**
-```bash
-cd client
-npm run dev
-```
+(Backend on port 3002, frontend on port 5174.) If you'd rather run them separately in two terminals, use `npm run dev:server` and `npm run dev:client`.
 
 Then open [http://localhost:5174](http://localhost:5174).
+
+Note: the backend must be running for local dev even though the live site doesn't need it — the dev client always calls the live API, not the static JSON export.
 
 ---
 

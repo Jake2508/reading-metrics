@@ -1,19 +1,19 @@
 {
-  "totalBooks": 59,
-  "totalPages": 22987,
-  "estimatedWords": 6321425,
+  "totalBooks": 87,
+  "totalPages": 33565,
+  "estimatedWords": 9230375,
   "topAuthor": {
     "name": "Stephen King",
-    "bookCount": 13,
+    "bookCount": 19,
     "percentage": 22
   },
   "topGenre": {
     "name": "Fantasy",
-    "bookCount": 17,
-    "percentage": 29
+    "bookCount": 27,
+    "percentage": 31
   },
-  "averageRating": 4.1,
-  "averagePages": 390,
+  "averageRating": 4,
+  "averagePages": 386,
   "longestBook": {
     "id": "cmqdnjnrd000jum50vj3yttwe",
     "title": "It",
@@ -81,106 +81,134 @@
   "genreBreakdown": [
     {
       "genre": "Fantasy",
-      "count": 17,
-      "pages": 6461,
-      "percentage": 29
+      "count": 27,
+      "pages": 10065,
+      "percentage": 31
     },
     {
       "genre": "Science Fiction",
-      "count": 10,
-      "pages": 4103,
-      "percentage": 17
+      "count": 16,
+      "pages": 6211,
+      "percentage": 18
     },
     {
       "genre": "Horror",
-      "count": 8,
-      "pages": 3725,
-      "percentage": 14
+      "count": 11,
+      "pages": 4675,
+      "percentage": 13
     },
     {
       "genre": "Mystery & Thriller",
-      "count": 6,
-      "pages": 3345,
-      "percentage": 10
+      "count": 11,
+      "pages": 5746,
+      "percentage": 13
     },
     {
       "genre": "History",
       "count": 4,
       "pages": 1135,
-      "percentage": 7
+      "percentage": 5
+    },
+    {
+      "genre": "Nature",
+      "count": 2,
+      "pages": 500,
+      "percentage": 2
     },
     {
       "genre": "Self-Help",
       "count": 2,
       "pages": 523,
-      "percentage": 3
+      "percentage": 2
     },
     {
       "genre": "Unknown",
       "count": 2,
       "pages": 832,
-      "percentage": 3
+      "percentage": 2
     },
     {
       "genre": "Psychology",
       "count": 2,
       "pages": 859,
-      "percentage": 3
+      "percentage": 2
+    },
+    {
+      "genre": "Nyt:combined-print-and-e-book-",
+      "count": 1,
+      "pages": 762,
+      "percentage": 1
+    },
+    {
+      "genre": "Business",
+      "count": 1,
+      "pages": 253,
+      "percentage": 1
     },
     {
       "genre": "Greek Epic Poetry",
       "count": 1,
       "pages": 352,
-      "percentage": 2
+      "percentage": 1
     },
     {
       "genre": "Married People",
       "count": 1,
       "pages": 278,
-      "percentage": 2
+      "percentage": 1
     },
     {
       "genre": "Romance",
       "count": 1,
       "pages": 38,
-      "percentage": 2
+      "percentage": 1
     },
     {
       "genre": "Juvenile Literature",
       "count": 1,
       "pages": 89,
-      "percentage": 2
+      "percentage": 1
     },
     {
       "genre": "Memoir",
       "count": 1,
       "pages": 288,
-      "percentage": 2
+      "percentage": 1
     },
     {
       "genre": "Allegories",
       "count": 1,
       "pages": 311,
-      "percentage": 2
+      "percentage": 1
     },
     {
       "genre": "Fiction",
       "count": 1,
       "pages": 320,
-      "percentage": 2
+      "percentage": 1
     },
     {
       "genre": "Dystopian Fiction",
       "count": 1,
       "pages": 328,
-      "percentage": 2
+      "percentage": 1
     }
   ],
   "authorBreakdown": [
     {
       "author": "Stephen King",
-      "count": 13,
-      "pages": 7991
+      "count": 19,
+      "pages": 11884
+    },
+    {
+      "author": "H. G. Wells",
+      "count": 6,
+      "pages": 1176
+    },
+    {
+      "author": "Anne Rice",
+      "count": 5,
+      "pages": 2267
     },
     {
       "author": "George Orwell",
@@ -188,9 +216,14 @@
       "pages": 1298
     },
     {
-      "author": "H. G. Wells",
-      "count": 5,
-      "pages": 920
+      "author": "James Dashner",
+      "count": 4,
+      "pages": 1501
+    },
+    {
+      "author": "Robert R. McCammon",
+      "count": 4,
+      "pages": 2443
     },
     {
       "author": "Ray Bradbury",
@@ -198,14 +231,59 @@
       "pages": 700
     },
     {
-      "author": "Robert R. McCammon",
-      "count": 3,
-      "pages": 2031
+      "author": "James Herbert",
+      "count": 2,
+      "pages": 538
     },
     {
-      "author": "Anne Rice",
+      "author": "Lewis Carroll",
       "count": 2,
-      "pages": 955
+      "pages": 267
+    },
+    {
+      "author": "Ezekiel Boone",
+      "count": 1,
+      "pages": 351
+    },
+    {
+      "author": "Robert McCammon",
+      "count": 1,
+      "pages": 464
+    },
+    {
+      "author": "Alvin Schwartz",
+      "count": 1,
+      "pages": 111
+    },
+    {
+      "author": "Alan Moore",
+      "count": 1,
+      "pages": 424
+    },
+    {
+      "author": "Henry James",
+      "count": 1,
+      "pages": 160
+    },
+    {
+      "author": "Joseph Conrad",
+      "count": 1,
+      "pages": 136
+    },
+    {
+      "author": "David Wallace-Wells",
+      "count": 1,
+      "pages": 250
+    },
+    {
+      "author": "Alex Rodgers",
+      "count": 1,
+      "pages": 250
+    },
+    {
+      "author": "Peter A. Thiel",
+      "count": 1,
+      "pages": 253
     },
     {
       "author": "H.P. Lovecraft",
@@ -375,6 +453,6 @@
       "pagesRead": 271
     }
   ],
-  "diversityScore": 54,
-  "genresExplored": 16
+  "diversityScore": 44,
+  "genresExplored": 19
 }
